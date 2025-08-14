@@ -1,13 +1,12 @@
 package com.example.project.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.project.model.enums.Skill;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -16,7 +15,8 @@ import org.hibernate.annotations.UuidGenerator;
 public class EmployerProfile {
     @Id
     @UuidGenerator
-    private Long id;
+    @Column(updatable = false)
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -28,5 +28,9 @@ public class EmployerProfile {
     private String bio;
 
     @OneToOne
-    private Employer user;
+    private User user;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<Skill> skills;
 }
