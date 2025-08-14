@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: freelance_db
+    environment:
+      POSTGRES_USER: freelance
+      POSTGRES_PASSWORD: freelance
+      POSTGRES_DB: freelance_marketplace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - freelance-network
+
+volumes:
+  postgres_data:
+
+networks:
+  freelance-network:
+    driver: bridge

@@ -1,22 +1,29 @@
 package com.example.project.model.entity;
 
+import com.example.project.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
-@Data
+import java.util.UUID;
+
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Freelancer {
+public class User {
     @Id
     @UuidGenerator
     @Column(updatable = false)
-    private Long id;
+    private UUID id;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }
