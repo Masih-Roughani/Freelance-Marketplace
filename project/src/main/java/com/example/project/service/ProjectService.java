@@ -37,4 +37,13 @@ public class ProjectService {
 
         projectRepository.save(project);
     }
+
+    @Transactional
+    public void assignProject(UUID projectId, Authentication authentication) {
+        AuthUser authUser = (AuthUser) authentication.getPrincipal();
+        Project project = projectRepository.findById(projectId).orElse(null);
+
+        project.setFreelancer(userService.findUserById(authUser.id()));
+        projectRepository.save(project);
+    }
 }
