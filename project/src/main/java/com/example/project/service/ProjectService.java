@@ -14,11 +14,13 @@ import java.util.UUID;
 @Service
 public class ProjectService {
     private final UserRepository userRepository;
+    private final UserService userService;
     ProjectRepository projectRepository;
 
-    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository) {
+    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, UserService userService) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Transactional
@@ -30,7 +32,7 @@ public class ProjectService {
         project.setTitle(request.title());
         project.setDescription(request.description());
         project.setRequiredSkills(request.skills());
-        project.setEmployer(userRepository.findById(userId).orElse(null));
+        project.setEmployer(userService.findUserById(userId));
         project.setFreelancer(null);
 
         projectRepository.save(project);
