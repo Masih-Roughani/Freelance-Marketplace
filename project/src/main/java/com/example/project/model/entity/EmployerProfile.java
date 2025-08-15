@@ -29,8 +29,4 @@ public class EmployerProfile {
 
     @OneToOne
     private User user;
-
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private List<Skill> skills;
 }
