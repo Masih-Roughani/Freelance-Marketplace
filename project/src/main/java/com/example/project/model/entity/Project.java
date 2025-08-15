@@ -2,11 +2,18 @@ package com.example.project.model.entity;
 
 import com.example.project.model.enums.Skill;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Project {
     @Id
     @UuidGenerator
@@ -14,13 +21,13 @@ public class Project {
     private UUID id;
 
     @Column(nullable = false)
-    private String Title;
+    private String title;
 
     @Column(nullable = false)
-    private String Description;
+    private String description;
 
+    @ElementCollection
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private List<Skill> requiredSkills;
 
     @ManyToOne

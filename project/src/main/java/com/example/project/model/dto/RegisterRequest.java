@@ -9,8 +9,8 @@ public record RegisterRequest(
         @NotBlank @Size(min = 8)
         @Pattern(
                 regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
-                message = "Password is not valid!"
+                message = "Password is not strong enough!"
         ) String password,
-        @Secured({"ROLE_FREELANCER", "ROLE_EMPLOYER"}) Role role
+        @NotBlank Role role
 ) {
 }
