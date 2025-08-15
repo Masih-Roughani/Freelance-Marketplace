@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -30,6 +31,10 @@ public class UserService {
         return null;
     }
 
+    public User findUserById(UUID id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public boolean existsByEmail(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
@@ -37,7 +42,7 @@ public class UserService {
     public void register(RegisterRequest registerRequest) {
         User user = new User();
         user.setEmail(registerRequest.email());
-        user.setPassword(passwordEncoder.encode(registerRequest.password())); // Hash the password
+        user.setPassword(passwordEncoder.encode(registerRequest.password()));
         user.setRole(registerRequest.role());
         userRepository.save(user);
     }

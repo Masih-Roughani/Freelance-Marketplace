@@ -11,6 +11,6 @@ public record RegisterRequest(
                 regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
                 message = "Password is not strong enough!"
         ) String password,
-        @NotBlank Role role
+        @NotNull Role role
 ) {
 }

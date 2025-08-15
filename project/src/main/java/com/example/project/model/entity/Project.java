@@ -3,6 +3,7 @@ package com.example.project.model.entity;
 import com.example.project.model.enums.Skill;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
@@ -10,10 +11,11 @@ import org.hibernate.annotations.UuidGenerator;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Builder
 public class Project {
     @Id
     @UuidGenerator
@@ -36,3 +38,5 @@ public class Project {
     @OneToOne
     private User freelancer;
 }
+
+
