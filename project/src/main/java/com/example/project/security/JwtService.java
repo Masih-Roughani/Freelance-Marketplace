@@ -1,47 +1,74 @@
 package com.example.project.security;
 
+import com.example.project.model.dto.LoginRequest;
+import com.example.project.model.entity.User;
 import com.example.project.model.enums.Role;
+import com.example.project.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class JwtService {
-    //    اینارو بعد باید بزارم تو application.properties
-    private final String SECRET = "uyQg7ZFEGn8lVpsfCzltNKAk3xJPnuFLaRcloGsfMsE7e84Q9MMPcOjDdkrTumYYhcS7Moig6oyZCFmJTI6VEoNyAlOpGkCSdV3Muyx9Hi9DmTVxIRcJpSIn32OZXstrcUz8qzOrJUvhTSHqR0Vlo4knva8CbMd4cqJUP2dK0Cof8mvb4HJHA0HlpdQ2eYWPeR3pyGMAYGhaxvoPKqxOFB74hG5fSWV0cnMSjvGo2f19GHhsCf6sCcpp9TmjoRQSDUhpVaNKCWYcXvwwZnR5Y94XoAnlYAHsOFwcCAwt6lnZe07aGpCO1hJPTm63yB5FQWAtvccTKjwPrSEPWAED8dLesZARsRsJuAX4wfv5Rydvq4mCnRvnFZVEGv5DIecumkH1A1E8wyEyyBH2oeJ91xPvUUzQvrJwFGIREvvkjpyWTPLVOtBqzKz4ECIcwTONg9iwC4IEZrfK9nzBg1KvI4TmMFnGVh7kNuOJHaGL0OwM2QH9IozoNlD4XBO9Tdhw";
-    private final long EXPIRATION_TIME = 6000;
+    private final UserRepository userRepository;
+    @Value("${jwt.secret}")
+    private String SECRET;
+    @Value("${jwt.expiration-ms}")
+    private long EXPIRATION_TIME;
 
-    public String generateToken(String username, Role role) {
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public String generateToken(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.email()).get();
+        Date now = new Date();
+        Date exp = new Date(now.getTime() + EXPIRATION_TIME);
+
         return Jwts.builder()
-                .setSubject(username)
-                .claim("role", role.name())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .setSubject(String.valueOf(user.getId()))
+                .claim("email", user.getEmail())
+                .claim("role", user.getRole().name())
+                .setIssuedAt(now)
+                .setExpiration(exp)
+                .signWith(SignatureAlgorithm.HS512, SECRET.getBytes(StandardCharsets.UTF_8))
                 .compact();
     }
 
-    public String getUsernameFromToken(String token) {
+    private Claims getClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET)
+                .setSigningKey(SECRET.getBytes(StandardCharsets.UTF_8))
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
+    }
+
+    public UUID getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(SECRET.getBytes(StandardCharsets.UTF_8))
+                .parseClaimsJws(token)
+                .getBody();
+        return UUID.fromString(claims.getSubject());
+    }
+
+    public String getEmailFromToken(String token) {
+        return getClaims(token).get("email", String.class);
     }
 
     public String getRoleFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token)
-                .getBody()
-                .get("role", String.class);
+        return getClaims(token).get("role", String.class);
     }
 
     public boolean isTokenValid(String token) {
         try {
-            Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            getClaims(token);
             return true;
         } catch (Exception e) {
             return false;
