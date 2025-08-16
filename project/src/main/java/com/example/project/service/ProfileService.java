@@ -5,7 +5,6 @@ import com.example.project.model.dto.EmployerProfileRequest;
 import com.example.project.model.dto.FreelancerProfileRequest;
 import com.example.project.model.entity.EmployerProfile;
 import com.example.project.model.entity.FreelancerProfile;
-import com.example.project.model.entity.Skill;
 import com.example.project.model.entity.User;
 import com.example.project.repository.EmployerProfileRepository;
 import com.example.project.repository.FreelancerProfileRepository;

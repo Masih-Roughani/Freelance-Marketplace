@@ -1,6 +1,5 @@
 package com.example.project.repository;
 
-import com.example.project.model.entity.EmployerProfile;
 import com.example.project.model.entity.FreelancerProfile;
 import com.example.project.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

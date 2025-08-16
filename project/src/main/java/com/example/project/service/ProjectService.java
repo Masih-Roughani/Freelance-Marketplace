@@ -7,14 +7,11 @@ import com.example.project.model.entity.Project;
 import com.example.project.model.entity.Skill;
 import com.example.project.model.enums.ProjectStatus;
 import com.example.project.repository.ProjectRepository;
-import com.example.project.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
