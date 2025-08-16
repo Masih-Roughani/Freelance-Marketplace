@@ -4,7 +4,6 @@ import com.example.project.model.dto.LoginRequest;
 import com.example.project.model.dto.RegisterRequest;
 import com.example.project.model.entity.User;
 import com.example.project.model.enums.Role;
-import com.example.project.security.JwtService;
 import com.example.project.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,12 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("user/")
 public class UserController {
     private final UserService userService;
-    //        this must be fixed
-    JwtService jwtService;
 
-    public UserController(UserService userService, JwtService jwtService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.jwtService = jwtService;
     }
 
     @PostMapping("register")
@@ -45,8 +41,7 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
-//        this must be fixed
-        String token = jwtService.generateToken(request);
+        String token = userService.generateToken(request);
 
         return ResponseEntity.ok(token);
     }

@@ -1,27 +1,25 @@
 package com.example.project.model.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployerProfile {
+@Entity
+public class Skill {
     @Id
     @UuidGenerator
     @Column(updatable = false)
     private UUID id;
 
     @Column(nullable = false)
-    private String companyName;
-
-    @Column(nullable = false)
-    private String contact;
-
-    @OneToOne
-    private User user;
+    private String name;
 }

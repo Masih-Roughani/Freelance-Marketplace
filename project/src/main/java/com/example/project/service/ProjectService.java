@@ -4,6 +4,7 @@ import com.example.project.model.dto.AuthUser;
 import com.example.project.model.dto.ProjectCreationRequest;
 import com.example.project.model.dto.ProjectResponse;
 import com.example.project.model.entity.Project;
+import com.example.project.model.entity.Skill;
 import com.example.project.model.enums.ProjectStatus;
 import com.example.project.repository.ProjectRepository;
 import com.example.project.repository.UserRepository;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 public class ProjectService {
     private final UserService userService;
     private final ProjectRepository projectRepository;
+    private final SkillService skillService;
 
-    public ProjectService(ProjectRepository projectRepository, UserService userService) {
+    public ProjectService(ProjectRepository projectRepository, UserService userService, SkillService skillService) {
         this.projectRepository = projectRepository;
         this.userService = userService;
+        this.skillService = skillService;
     }
 
     @Transactional
@@ -35,7 +38,13 @@ public class ProjectService {
         Project project = new Project();
         project.setTitle(request.title());
         project.setDescription(request.description());
-        project.setRequiredSkills(request.skills());
+
+        List<Skill> requiredSkills = request.skills().stream()
+                .map(skillAddition -> skillService.findSkillById(skillAddition.id())
+                        .orElseThrow(() -> new IllegalArgumentException("Skill not found: " + skillAddition.id())))
+                .toList();
+        project.setRequiredSkills(requiredSkills);
+
         project.setEmployer(userService.findUserById(userId));
         project.setStatus(request.status());
         project.setFreelancer(null);
