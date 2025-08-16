@@ -1,8 +1,10 @@
 package com.example.project.service;
 
+import com.example.project.model.dto.LoginRequest;
 import com.example.project.model.dto.RegisterRequest;
 import com.example.project.model.entity.User;
 import com.example.project.repository.UserRepository;
+import com.example.project.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public User authenticate(String email, String password) {
@@ -45,5 +49,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(registerRequest.password()));
         user.setRole(registerRequest.role());
         userRepository.save(user);
+    }
+
+    public String generateToken(LoginRequest request) {
+        return jwtService.generateToken(request);
     }
 }

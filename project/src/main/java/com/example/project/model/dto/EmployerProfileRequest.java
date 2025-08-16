@@ -5,10 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public record EmployerProfileRequest(
         @NotBlank
-        String name,
+        String companyName,
         @NotBlank
-        String contact,
-        @NotBlank
-        String bio
+        String contact
 ) {
 }

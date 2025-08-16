@@ -38,9 +38,8 @@ public class ProfileService {
 
         User user = userService.findUserById(authUser.id());
         EmployerProfile newProfile = new EmployerProfile();
-        newProfile.setBio(employerProfileRequest.bio());
         newProfile.setContact(employerProfileRequest.contact());
-        newProfile.setName(employerProfileRequest.name());
+        newProfile.setCompanyName(employerProfileRequest.companyName());
         newProfile.setUser(user);
 
         employerProfileRepository.save(newProfile);
@@ -51,17 +50,24 @@ public class ProfileService {
         Optional<FreelancerProfile> profile = freelancerProfileRepository.findByUserId(authUser.id());
         if (profile.isPresent()) {
             throw new IllegalStateException("Profile already exists for this user");
-
         }
 
         User user = userService.findUserById(authUser.id());
         FreelancerProfile newProfile = new FreelancerProfile();
         newProfile.setContact(freelancerProfileRequest.contact());
-        newProfile.setSkills(freelancerProfileRequest.skills());
-        newProfile.setCompanyName(freelancerProfileRequest.companyName());
+        newProfile.setBio(freelancerProfileRequest.bio());
+        newProfile.setName(freelancerProfileRequest.name());
         newProfile.setUser(user);
 
         freelancerProfileRepository.save(newProfile);
+    }
+
+    public Optional<FreelancerProfile> findProfileByUser(User user) {
+        return freelancerProfileRepository.findByUser(user);
+    }
+
+    public FreelancerProfile saveProfile(FreelancerProfile profile) {
+        return freelancerProfileRepository.save(profile);
     }
 }
 

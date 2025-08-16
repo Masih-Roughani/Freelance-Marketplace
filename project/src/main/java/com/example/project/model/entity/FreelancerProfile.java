@@ -1,6 +1,5 @@
 package com.example.project.model.entity;
 
-import com.example.project.model.enums.Skill;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -19,15 +18,17 @@ public class FreelancerProfile {
     private UUID id;
 
     @Column(nullable = false)
-    private String companyName;
+    private String name;
 
     @Column(nullable = false)
     private String contact;
 
+    @Column(length = 100, nullable = false)
+    private String bio;
+
     @OneToOne
     private User user;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private List<Skill> skills;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Skill> requiredSkills;
 }
