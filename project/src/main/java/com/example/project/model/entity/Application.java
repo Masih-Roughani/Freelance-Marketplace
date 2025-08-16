@@ -1,9 +1,7 @@
 package com.example.project.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.example.project.model.enums.ApplicationStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,14 +20,17 @@ public class Application {
     private UUID id;
 
     @Column(length = 300, nullable = false)
-    String cover;
+    private String cover;
 
     @Column(length = 1000, nullable = false)
-    String letter;
+    private String letter;
 
-    @OneToOne
+    @ManyToOne
     private Project project;
 
-    @OneToOne
+    @ManyToOne
     private User freelancer;
+
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status = ApplicationStatus.PENDING;
 }

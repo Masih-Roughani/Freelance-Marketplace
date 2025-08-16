@@ -13,18 +13,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
-    private final UserRepository userRepository;
     private final UserService userService;
-    ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
-    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, UserService userService) {
+    public ProjectService(ProjectRepository projectRepository, UserService userService) {
         this.projectRepository = projectRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -38,6 +37,7 @@ public class ProjectService {
         project.setDescription(request.description());
         project.setRequiredSkills(request.skills());
         project.setEmployer(userService.findUserById(userId));
+        project.setStatus(request.status());
         project.setFreelancer(null);
 
         projectRepository.save(project);
@@ -64,7 +64,8 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
-    public Object getProject(UUID projectId) {
+    //    must be dto in controller
+    public Project getProject(UUID projectId) {
         return projectRepository.findById(projectId).orElse(null);
     }
 }

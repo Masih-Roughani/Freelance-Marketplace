@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("user/")
 public class UserController {
-    UserService userService;
+    private final UserService userService;
+    //        this must be fixed
     JwtService jwtService;
 
     public UserController(UserService userService, JwtService jwtService) {

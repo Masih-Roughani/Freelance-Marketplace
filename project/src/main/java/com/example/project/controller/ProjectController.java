@@ -29,6 +29,7 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Created project successfully");
     }
 
+//    must be changed or deleted
     @PostMapping("assign")
     @PreAuthorize("hasRole('FREELANCER')")
     public ResponseEntity<?> assign(@RequestParam UUID projectId, Authentication authentication) {
