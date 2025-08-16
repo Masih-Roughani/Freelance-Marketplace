@@ -44,6 +44,7 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
+//        this must be fixed
         String token = jwtService.generateToken(request);
 
         return ResponseEntity.ok(token);
