@@ -7,13 +7,13 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record ProjectCreationRequest(
+public record ProjectResponse(
         @NotBlank
         String title,
         @NotBlank
         String description,
         @NotNull
-        List<Skill> skills,
+        List<Skill> requiredSkills,
         @NotNull
         ProjectStatus status
 ) {

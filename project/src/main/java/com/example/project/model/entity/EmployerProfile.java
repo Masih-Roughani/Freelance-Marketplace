@@ -24,7 +24,7 @@ public class EmployerProfile {
     @Column(nullable = false)
     private String contact;
 
-    @Column(length = 1000)
+    @Column(length = 100, nullable = false)
     private String bio;
 
     @OneToOne
