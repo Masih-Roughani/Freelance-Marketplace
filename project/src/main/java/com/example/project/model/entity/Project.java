@@ -1,7 +1,9 @@
 package com.example.project.model.entity;
 
+import com.example.project.model.enums.ProjectStatus;
 import com.example.project.model.enums.Skill;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +39,10 @@ public class Project {
 
     @OneToOne
     private User freelancer;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProjectStatus status;
 }
 
 

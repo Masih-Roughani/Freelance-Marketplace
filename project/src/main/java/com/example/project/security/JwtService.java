@@ -2,7 +2,6 @@ package com.example.project.security;
 
 import com.example.project.model.dto.LoginRequest;
 import com.example.project.model.entity.User;
-import com.example.project.model.enums.Role;
 import com.example.project.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class JwtService {
