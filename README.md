@@ -35,13 +35,13 @@ This project follows a **microservices architecture** with the following compone
 ## 🚀 Installation
 
 1. **Clone the repository**
-   ```bash
+   ```
    git clone https://github.com/Masih-Roughani/Freelance-Marketplace.git
    cd Freelance-Marketplace
    ```
 
 2. **Install dependencies**
-   ```bash
+   ```
    mvn clean install
    ```
 
@@ -51,47 +51,32 @@ This project follows a **microservices architecture** with the following compone
    ```
 
 4. **Start Required Services**
-   ```bash
-   # Start PostgreSQL
-   sudo systemctl start postgresql
-   
-   # Start Redis
-   sudo systemctl start redis
-   
-   # Start RabbitMQ
-   sudo systemctl start rabbitmq-server
-   ```
+   - Start PostgreSQL
+   - Start Redis  
+   - Start RabbitMQ
 
 5. **Configure Environment Variables**
-   ```bash
-   # Database Configuration
-   export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/freelance_marketplace
-   export SPRING_DATASOURCE_USERNAME=your_username
-   export SPRING_DATASOURCE_PASSWORD=your_password
-   
-   # Redis Configuration
-   export SPRING_REDIS_HOST=localhost
-   export SPRING_REDIS_PORT=6379
-   
-   # RabbitMQ Configuration
-   export SPRING_RABBITMQ_HOST=localhost
-   export SPRING_RABBITMQ_PORT=5672
-   export SPRING_RABBITMQ_USERNAME=guest
-   export SPRING_RABBITMQ_PASSWORD=guest
-   
-   # JWT Configuration
-   export JWT_SECRET=your_jwt_secret_key
-   export JWT_EXPIRATION=86400000
-   ```
+   Set the following environment variables:
+   - `SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/freelance_marketplace`
+   - `SPRING_DATASOURCE_USERNAME=your_username`
+   - `SPRING_DATASOURCE_PASSWORD=your_password`
+   - `SPRING_REDIS_HOST=localhost`
+   - `SPRING_REDIS_PORT=6379`
+   - `SPRING_RABBITMQ_HOST=localhost`
+   - `SPRING_RABBITMQ_PORT=5672`
+   - `SPRING_RABBITMQ_USERNAME=guest`
+   - `SPRING_RABBITMQ_PASSWORD=guest`
+   - `JWT_SECRET=your_jwt_secret_key`
+   - `JWT_EXPIRATION=86400000`
 
 6. **Generate Protocol Buffers (if needed)**
-   ```bash
+   ```
    mvn protobuf:compile
    mvn protobuf:compile-custom
    ```
 
 7. **Run the application**
-   ```bash
+   ```
    mvn spring-boot:run
    ```
 
@@ -132,6 +117,12 @@ grpc:
     port: 9090
 ```
 
+## 🔗 gRPC Services
+
+The application uses gRPC for inter-service communication with Protocol Buffers:
+
+Generate protobuf classes: `mvn protobuf:compile` and `mvn protobuf:compile-custom`
+
 ## 📦 Maven Dependencies
 
 Key dependencies included:
@@ -164,7 +155,12 @@ RabbitMQ handles asynchronous communication between microservices for:
 - Reliable message delivery
 
 ## 🚀 Deployment
-```
+
+To deploy the application:
+
+1. Package the application: `mvn clean package`
+2. Run the JAR file: `java -jar target/freelance-marketplace-*.jar`
+
 ## 📁 Project Structure
 
 ```
@@ -178,14 +174,14 @@ Freelance-Marketplace/
 │   │   │       ├── service/         # Business logic
 │   │   │       ├── repository/      # JPA repositories
 │   │   │       ├── entity/          # JPA entities
-│   │   │       ├── grpc/           # gRPC services
+│   │   │       ├── grpc/            # gRPC services
 │   │   │       └── security/        # JWT & Security config
 │   │   ├── resources/
 │   │   │   ├── application.yml
-│   │   │   └── proto/              # Protocol buffer definitions
-│   │   └── proto/                  # .proto files
-├── target/                         # Maven build output
-├── pom.xml                        # Maven configuration
+│   │   │   └── proto/               # Protocol buffer definitions
+│   │   └── proto/                   # .proto files
+├── target/                          # Maven build output
+├── pom.xml                          # Maven configuration
 └── README.md
 ```
 
